@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kavasaki — contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0a0a0b;
+      --surface: #121214;
+      --surface-hover: #1a1a1e;
+      --border: #1f1f23;
+      --border-focus: #3f3f46;
+      --text: #f4f4f5;
+      --text-muted: #71717a;
+      --text-dim: #52525b;
+      --accent: #a1a1aa;
+      --accent-hover: #f4f4f5;
+      --tiktok: #fe2c55;
+      --instagram: #e4405f;
+      --success: #22c55e;
+      --error: #ef4444;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --font: 'JetBrains Mono', monospace;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow {
+      position: fixed;
+      top: -40%;
+      left: -20%;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(161,161,170,0.04) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 20px;
+      user-select: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .avatar:hover {
+      border-color: var(--accent);
+    }
+
+    .name {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .tagline {
+      font-size: 12.5px;
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+      margin-bottom: 40px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .tagline span {
+      color: var(--text);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 36px;
+      font-size: 11.5px;
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+    }
+
+    .status__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* === FORM === */
+    .contact-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      width: 100%;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-dim);
+      font-weight: 300;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--border-focus);
+      background: var(--surface-hover);
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .char-counter {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-dim);
+      margin-top: 2px;
+      transition: color 0.2s ease;
+    }
+
+    .char-counter--warn { color: #f59e0b; }
+    .char-counter--error { color: var(--error); }
+
+    .submit-btn {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--bg);
+      background: var(--text);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.3px;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .submit-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-message {
+      font-size: 12px;
+      font-weight: 300;
+      text-align: center;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      display: none;
+    }
+
+    .form-message--success {
+      display: block;
+      color: var(--success);
+      border: 1px solid rgba(34,197,94,0.2);
+      background: rgba(34,197,94,0.06);
+    }
+
+    .form-message--error {
+      display: block;
+      color: var(--error);
+      border: 1px solid rgba(239,68,68,0.2);
+      background: rgba(239,68,68,0.06);
+    }
+
+    /* === DIVIDER === */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .divider__line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider__text {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-dim);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* === SOCIAL === */
+    .social-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 400;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      border-radius: var(--radius-sm);
+    }
+
+    .link-card--tiktok::before { background: linear-gradient(135deg, rgba(254,44,85,0.08), transparent 60%); }
+    .link-card--instagram::before { background: linear-gradient(135deg, rgba(228,64,95,0.08), transparent 60%); }
+
+    .link-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
+    }
+
+    .link-card:active { transform: translateY(0); }
+    .link-card:hover::before { opacity: 1; }
+
+    .link-card__icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-card__icon svg { width: 16px; height: 16px; fill: none; }
+    .link-card__icon--tiktok { background: rgba(254,44,85,0.12); }
+    .link-card__icon--tiktok svg { fill: #fe2c55; }
+    .link-card__icon--instagram { background: linear-gradient(135deg, rgba(228,64,95,0.12), rgba(131,58,180,0.12)); }
+    .link-card__icon--instagram svg { fill: #e4405f; }
+
+    .link-card__content { flex: 1; position: relative; z-index: 1; }
+    .link-card__label { font-size: 13px; font-weight: 400; color: var(--text); }
+    .link-card__handle { font-size: 11px; font-weight: 300; color: var(--text-muted); margin-top: 1px; }
+
+    .link-card__arrow {
+      width: 16px;
+      height: 16px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .link-card:hover .link-card__arrow {
+      transform: translateX(3px);
+      color: var(--text);
+    }
+
+    /* === SETUP GUIDE === */
+    .setup-guide {
+      width: 100%;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+    }
+
+    .setup-guide__title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .setup-guide__item {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .setup-guide__item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .setup-guide__item:first-child {
+      padding-top: 0;
+    }
+
+    .setup-guide__num {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-dim);
+      line-height: 1.6;
+      min-width: 20px;
+    }
+
+    .setup-guide__text {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .setup-guide__text strong { color: var(--text); font-weight: 400; }
+
+    .setup-guide__text a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+      transition: color 0.2s ease;
+    }
+
+    .setup-guide__text a:hover { color: var(--accent-hover); }
+
+    .footer {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+      transition: color 0.2s ease;
+    }
+
+    .footer a:hover { color: var(--text); }
+
+    /* === ANIMATIONS === */
+    .animate-in {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-in--1 { animation-delay: 0.05s; }
+    .animate-in--2 { animation-delay: 0.1s; }
+    .animate-in--3 { animation-delay: 0.15s; }
+    .animate-in--4 { animation-delay: 0.2s; }
+    .animate-in--5 { animation-delay: 0.25s; }
+    .animate-in--6 { animation-delay: 0.3s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-in { opacity: 1; transform: none; animation: none; }
+      .status__dot { animation: none; }
+      .link-card:hover { transform: none; }
+      .link-card:hover .link-card__arrow { transform: none; }
+      .submit-btn:hover { transform: none; }
+    }
+
+    @media (max-width: 520px) {
+      main { padding: 32px 16px 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <main>
+    <div class="avatar animate-in animate-in--1">k</div>
+    <h1 class="name animate-in animate-in--2">kavasaki</h1>
+    <p class="tagline animate-in animate-in--3">
+      <span>html</span> + <span>js</span> &mdash; sometimes both at once.
+    </p>
+    <div class="status animate-in animate-in--4">
+      <span class="status__dot"></span>
+      open to collab
+    </div>
+
+    <!-- === CONTACT FORM === -->
+    <p class="section-title animate-in animate-in--4">Send a message</p>
+
+    <form class="contact-form animate-in animate-in--5" id="contactForm" novalidate>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="What&rsquo;s on your mind?" maxlength="200" required></textarea>
+        <div class="char-counter" id="charCounter">0 / 200</div>
+      </div>
+
+      <div class="form-message" id="formMessage"></div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        Send message
+      </button>
+    </form>
+
+    <!-- === DIVIDER === -->
+    <div class="divider animate-in animate-in--5">
+      <div class="divider__line"></div>
+      <span class="divider__text">or find me on</span>
+      <div class="divider__line"></div>
+    </div>
+
+    <!-- === SOCIAL LINKS === -->
+    <div class="social-links animate-in animate-in--5">
+      <a href="https://www.tiktok.com/@kavasaki.html" target="_blank" rel="noopener noreferrer" class="link-card link-card--tiktok">
+        <div class="link-card__icon link-card__icon--tiktok">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.29 0 .57.04.84.11V9.1a6.36 6.36 0 0 0-.84-.05A6.33 6.33 0 0 0 3.2 15.38a6.33 6.33 0 0 0 6.33 6.34 6.33 6.33 0 0 0 6.34-6.34V11.2a8.24 8.24 0 0 0 4.77 1.5v-3.4a4.85 4.85 0 0 1-1.05-.11z"/>
+          </svg>
+        </div>
+        <div class="link-card__content">
+          <div class="link-card__label">TikTok</div>
+          <div class="link-card__handle">@kavasaki.html</div>
+        </div>
+        <svg class="link-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 12l4-4-4-4"/>
+        </svg>
+      </a>
+
+      <a href="https://www.instagram.com/kavasaki.js/" target="_blank" rel="noopener noreferrer" class="link-card link-card--instagram">
+        <div class="link-card__icon link-card__icon--instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+          </svg>
+        </div>
+        <div class="link-card__content">
+          <div class="link-card__label">Instagram</div>
+          <div class="link-card__handle">@kavasaki.js</div>
+        </div>
+        <svg class="link-card__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 12l4-4-4-4"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- === FORM STATUS === -->
+    <div class="setup-guide animate-in animate-in--6">
+      <div class="setup-guide__title">Form status</div>
+      <div class="setup-guide__item">
+        <span class="setup-guide__num">✓</span>
+        <span class="setup-guide__text">
+          Formspree endpoint configured &mdash; messages go to <strong>rearvertz@gmail.com</strong>. Free tier: <strong>50 submissions/month</strong>.
+        </span>
+      </div>
+    </div>
+
+    <!-- === FREE EMAIL GUIDE === -->
+    <div class="setup-guide animate-in animate-in--6">
+      <div class="setup-guide__title">Free professional email</div>
+      <div class="setup-guide__item">
+        <span class="setup-guide__num">1.</span>
+        <span class="setup-guide__text">
+          <strong>Zoho Mail</strong><br />
+          Full free mailbox with your own domain &mdash; 5GB storage, up to 5 users. Go to <a href="https://zoho.com/mail" target="_blank" rel="noopener">zoho.com/mail</a>.
+        </span>
+      </div>
+      <div class="setup-guide__item">
+        <span class="setup-guide__num">2.</span>
+        <span class="setup-guide__text">
+          <strong>Cloudflare Email Routing</strong><br />
+          Free forwarding &mdash; emails to <code>you@yourdomain.com</code> land in your existing Gmail. No storage limits. You need a domain on Cloudflare.
+        </span>
+      </div>
+      <div class="setup-guide__item">
+        <span class="setup-guide__num">3.</span>
+        <span class="setup-guide__text">
+          <strong>iCloud+ Custom Domain</strong><br />
+          Free if you already have iCloud+. Use your domain with iCloud Mail.
+        </span>
+      </div>
+      <div class="setup-guide__item">
+        <span class="setup-guide__num">4.</span>
+        <span class="setup-guide__text">
+          <strong>Need a domain?</strong> Buy one (~$10-15/year) from Cloudflare Domains, Porkbun, or Namecheap. Then pair it with Zoho (full inbox) or Cloudflare Routing (just forwarding).
+        </span>
+      </div>
+    </div>
+
+    <div class="footer animate-in animate-in--6">
+      <a href="https://www.tiktok.com/@kavasaki.html" target="_blank" rel="noopener noreferrer">tiktok</a>
+      &nbsp;/&nbsp;
+      <a href="https://www.instagram.com/kavasaki.js/" target="_blank" rel="noopener noreferrer">instagram</a>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      const form = document.getElementById('contactForm');
+      const messageField = document.getElementById('message');
+      const charCounter = document.getElementById('charCounter');
+      const formMessage = document.getElementById('formMessage');
+      const submitBtn = document.getElementById('submitBtn');
+
+      // Live character counter
+      messageField.addEventListener('input', function() {
+        const len = this.value.length;
+        charCounter.textContent = len + ' / 200';
+        charCounter.className = 'char-counter';
+        if (len > 170) charCounter.classList.add('char-counter--warn');
+        if (len >= 200) charCounter.classList.add('char-counter--error');
+      });
+
+      // ═══════════════════════════════════════════
+      //  Formspree — sends messages to rearvertz@gmail.com
+      // ═══════════════════════════════════════════
+      const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mdarvggl';
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = messageField.value.trim();
+
+        if (!name || !email || !message) {
+          showMessage('All fields are required.', 'error');
+          return;
+        }
+        if (!email.includes('@')) {
+          showMessage('Please enter a valid email address.', 'error');
+          return;
+        }
+
+        if (!FORMSPREE_ENDPOINT) {
+          showMessage(
+            'Set up your form endpoint first. See "To receive these messages" below.',
+            'error'
+          );
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        showMessage('', '');
+
+        try {
+          const res = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message }),
+          });
+
+          if (res.ok) {
+            showMessage('Message sent! I&rsquo;ll get back to you soon.', 'success');
+            form.reset();
+            charCounter.textContent = '0 / 200';
+          } else {
+            const data = await res.json().catch(() => ({}));
+            showMessage(data.error || 'Something went wrong. Try again.', 'error');
+          }
+        } catch (err) {
+          showMessage('Network error. Check your connection.', 'error');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send message';
+        }
+      });
+
+      function showMessage(text, type) {
+        formMessage.innerHTML = text;
+        formMessage.className = 'form-message';
+        if (type) formMessage.classList.add('form-message--' + type);
+      }
+    })();
+  </script>
+</body>
+</html>
